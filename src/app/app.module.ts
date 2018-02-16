@@ -3,11 +3,15 @@ import { NgModule } from '@angular/core';
 
 
 import { AppComponent } from './app.component';
+import { ToolboxPanelComponent } from './components/toolbox-panel/toolbox-panel.component';
+import { CanvasPanelComponent } from './components/canvas-panel/canvas-panel.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    ToolboxPanelComponent,
+    CanvasPanelComponent
   ],
   imports: [
     BrowserModule

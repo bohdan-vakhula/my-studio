@@ -1,0 +1,42 @@
+@import '../../common';
+.container {
+    width: 200px;
+    height: 100%;
+    border-right: 2px solid $gray-divider-color;
+    color: #66777D;
+    .category-item {
+        cursor: pointer;
+        font-size: 14px;
+        color: #748C94;
+        padding: 10px;
+        background-color: #f3f3f3;
+        border-bottom: 1px solid #CCCCCC;
+        i {
+            margin-right: 3px;
+        }
+    }
+    .add-element {
+        border-bottom: 1px solid #e3e7e9;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        font-size: 13px;
+        padding: 10px 10px 10px 30px;
+        cursor: pointer;
+        .element-icon {
+            color: #B4BEC0;
+            margin-right: 5px;
+        }
+        &:hover {
+            background-color: #F6F9F9;
+            color: #586C73;
+        }
+        &.selected {
+            color: #52ade0;
+            cursor: default;
+            .element-icon {
+                color: #52ade0;
+            }
+        }
+    }
+}
