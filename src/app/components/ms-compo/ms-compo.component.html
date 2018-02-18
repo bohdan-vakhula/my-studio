@@ -1,3 +1,8 @@
-<div class="container" [class.endpoint]="msComponentData.type === MS_COMPONENT_TYPE.ENDPOINT">
+<div class="container"
+  [class.selected]="msComponentService.selectedMsComponentUID === uid"
+  [class.endpoint]="msComponentData.type === MS_COMPONENT_TYPE.ENDPOINT"
+  appMsDraggable [msComponentUID]="uid"
+  (mousedown)="handleContainerMouseDown($event)"
+  (click)="handleContainerClick()">
   {{msComponentData.title}}
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, ComponentFactoryResolver } from '@angular/core';
 import { MsCompHostDirective } from '../../directives/ms-comp-host.directive';
 import { MsCompoComponent } from '../ms-compo/ms-compo.component';
+import { MsComponentService } from '../../services/ms-component.service';
 
 @Component({
   selector: 'app-canvas-panel',
@@ -9,7 +10,7 @@ import { MsCompoComponent } from '../ms-compo/ms-compo.component';
 })
 export class CanvasPanelComponent implements OnInit {
   @ViewChild(MsCompHostDirective) appMsCompHost: MsCompHostDirective;
-  constructor(private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(private componentFactoryResolver: ComponentFactoryResolver, private msComponentService: MsComponentService) { }
 
   ngOnInit() {
   }
@@ -20,12 +21,22 @@ export class CanvasPanelComponent implements OnInit {
 
   handleDrop(event) {
     event.preventDefault();
-    let uid = event.dataTransfer.getData('MsComponentDataUID');
+    let msComponentDataUID: string = event.dataTransfer.getData('MsComponentDataUID');
+    let msCompComponentUID: string = event.dataTransfer.getData('msCompComponentUID');
 
-    let componentFactory = this.componentFactoryResolver.resolveComponentFactory(MsCompoComponent);
-    let viewContainerRef = this.appMsCompHost.viewContainerRef;
-    let componentRef = viewContainerRef.createComponent(componentFactory);
-    (<MsCompoComponent>componentRef.instance).setComponentData(uid);
-    (<MsCompoComponent>componentRef.instance).updatePosition(event.clientX, event.clientY);
+    if (msComponentDataUID) {
+      let componentFactory = this.componentFactoryResolver.resolveComponentFactory(MsCompoComponent);
+      let viewContainerRef = this.appMsCompHost.viewContainerRef;
+      let componentRef = viewContainerRef.createComponent(componentFactory);
+
+      let componentInstance: MsCompoComponent = (<MsCompoComponent>componentRef.instance);
+      componentInstance.setComponentData(msComponentDataUID);
+      componentInstance.updatePosition(event.clientX, event.clientY);
+
+      this.msComponentService.addMsCompComponent(componentInstance);
+    } else if (msCompComponentUID){
+      let componentInstance = this.msComponentService.getMsCompComponent(msCompComponentUID);
+      componentInstance.updatePosition(event.clientX, event.clientY);
+    }
   }
 }
