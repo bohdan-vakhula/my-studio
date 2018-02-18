@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="category-item" (click)="toggleEndpoints()">
+    <i class="fa fa-folder"></i>
+    Endpoints
+  </div>
+  <div *ngIf="shouldShowEndpoints">
+    <div *ngFor="let endpoint of endpoints" class="add-element" appMsDraggable [msComponentData]="endpoint">
+      <div class="element-icon {{endpoint.icon}}"></div>
+      <div>{{endpoint.title}}</div>
+    </div>
+  </div>
+  <div class="category-item" (click)="toggleScopes()">
+    <i class="fa fa-folder"></i>
+    Scopes
+  </div>
+  <div *ngIf="shouldShowScopes">
+    <div *ngFor="let scope of scopes" class="add-element" appMsDraggable [msComponentData]="scope">
+      <div class="element-icon {{scope.icon}}"></div>
+      <div>{{scope.title}}</div>
+    </div>
+  </div>
+</div>

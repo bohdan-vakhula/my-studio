@@ -1,0 +1,12 @@
+.container {
+    width: 80px;
+    padding: 15px 8px;
+    text-align: center;
+    background: #289023;
+    border-radius: 8px;
+    color: white;
+    user-select: none;
+    &.endpoint {
+        background: #0c79c5;
+    }
+}
