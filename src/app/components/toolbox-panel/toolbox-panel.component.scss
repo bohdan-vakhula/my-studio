@@ -23,23 +23,13 @@
         font-size: 13px;
         padding: 10px 10px 10px 30px;
         cursor: pointer;
-        .flex-container {
-            display: flex;
-            &:hover {
-                background-color: #F6F9F9;
-                color: #586C73;
-            }
-            &.selected {
-                color: #52ade0;
-                cursor: default;
-                .element-icon {
-                    color: #52ade0;
-                }
-            }
-            .element-icon {
-                color: #B4BEC0;
-                margin-right: 5px;
-            }
+        .element-icon {
+            color: #B4BEC0;
+            margin-right: 5px;
+        }
+        &:hover {
+            background-color: #F6F9F9;
+            color: #586C73;
         }
     }
 }

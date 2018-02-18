@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Endpoint } from '../../models/endpoint';
-import { Scope } from '../../models/scope';
-import { ENDPOINTS, SCOPES } from '../../appconfig';
+import { MsComponentData } from '../../models/ms-component-data';
+import { MsComponentService } from '../../services/ms-component.service';
 
 @Component({
   selector: 'app-toolbox-panel',
@@ -9,13 +8,15 @@ import { ENDPOINTS, SCOPES } from '../../appconfig';
   styleUrls: ['./toolbox-panel.component.scss']
 })
 export class ToolboxPanelComponent implements OnInit {
-  endpoints: Endpoint[] = ENDPOINTS;
-  scopes: Scope[] = SCOPES;
   shouldShowEndpoints = false;
   shouldShowScopes = false;
-  selectedTool = null;
+  endpoints: MsComponentData[] = [];
+  scopes: MsComponentData[] = [];
 
-  constructor() { }
+  constructor(private msComponentService: MsComponentService) {
+    this.endpoints = msComponentService.getEndpoints();
+    this.scopes = msComponentService.getScopes();
+  }
 
   ngOnInit() {
   }
@@ -26,9 +27,5 @@ export class ToolboxPanelComponent implements OnInit {
 
   toggleScopes() {
     this.shouldShowScopes = !this.shouldShowScopes;
-  }
-
-  selectTool(tool:any) {
-    this.selectedTool = tool;
   }
 }
