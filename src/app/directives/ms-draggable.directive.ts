@@ -7,7 +7,6 @@ import {MsComponentData} from '../models/ms-component-data';
 })
 export class MsDraggableDirective {
   @Input() msComponentData: MsComponentData;
-  @Input() msComponentUID: string;
   dragImage = new Image();
 
   constructor(private el: ElementRef) {
@@ -25,8 +24,6 @@ export class MsDraggableDirective {
     if (this.msComponentData) {
       event.dataTransfer.setData('MsComponentDataUID', this.msComponentData.uid);
       event.dataTransfer.setDragImage(this.dragImage, 0, 0);
-    } else if (this.msComponentUID && this.msComponentUID.length > 0) {
-      event.dataTransfer.setData('msCompComponentUID', this.msComponentUID);
     }
   }
 }

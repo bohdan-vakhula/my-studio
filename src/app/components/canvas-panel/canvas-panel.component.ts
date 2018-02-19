@@ -22,7 +22,6 @@ export class CanvasPanelComponent implements OnInit {
   handleDrop(event) {
     event.preventDefault();
     let msComponentDataUID: string = event.dataTransfer.getData('MsComponentDataUID');
-    let msCompComponentUID: string = event.dataTransfer.getData('msCompComponentUID');
 
     if (msComponentDataUID) {
       let componentFactory = this.componentFactoryResolver.resolveComponentFactory(MsCompoComponent);
@@ -34,9 +33,6 @@ export class CanvasPanelComponent implements OnInit {
       componentInstance.updatePosition(event.clientX, event.clientY);
 
       this.msComponentService.addMsCompComponent(componentInstance);
-    } else if (msCompComponentUID){
-      let componentInstance = this.msComponentService.getMsCompComponent(msCompComponentUID);
-      componentInstance.updatePosition(event.clientX, event.clientY);
     }
   }
 }

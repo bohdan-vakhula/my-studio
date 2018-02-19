@@ -4,7 +4,7 @@ import { MsComponentService } from '../../services/ms-component.service';
 import { MS_COMPONENT_TYPE } from '../../appconfig';
 import * as utils from '../../utils';
 import * as $ from 'jquery';
-
+    
 @Component({
   selector: 'app-ms-compo',
   templateUrl: './ms-compo.component.html',

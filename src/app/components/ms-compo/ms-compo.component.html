@@ -1,8 +1,8 @@
-<div class="container"
+<div id="{{uid}}" class="container"
   [class.selected]="msComponentService.selectedMsComponent && msComponentService.selectedMsComponent.uid === uid"
   [class.endpoint]="msComponentData.type === MS_COMPONENT_TYPE.ENDPOINT"
   [ngStyle]="{'background': msBackgroundColor, 'color': msTextColor}"
-  appMsDraggable [msComponentUID]="uid"
+  ngDraggable
   (mousedown)="handleContainerMouseDown($event)"
   (click)="handleContainerClick()">
 
