@@ -17,6 +17,10 @@ export class MsCompoComponent implements OnInit {
   originalTop: number = 0;
   originalLeft: number = 0;
 
+  msTitle: string = '';
+  msBackgroundColor: string = '';
+  msTextColor: string = '';
+
   constructor(private elmentRef: ElementRef, public msComponentService: MsComponentService) {
   }
 
@@ -26,10 +30,14 @@ export class MsCompoComponent implements OnInit {
 
   setComponentData(msComponentDataUID: string) {
     this.msComponentData = this.msComponentService.getMsComponentDataFromUID(msComponentDataUID);
+
+    this.msTitle = this.msComponentData.title;
+    this.msTextColor = '#fff';
+    this.msBackgroundColor =  this.msComponentData.type === 'endpoint' ? '#0c79c5' : '#289023';
   }
 
   handleContainerClick() {
-    this.msComponentService.setSelectedMsComponentUID(this.uid);
+    this.msComponentService.setSelectedMsComponent(this);
   }
 
   handleContainerMouseDown(event) {

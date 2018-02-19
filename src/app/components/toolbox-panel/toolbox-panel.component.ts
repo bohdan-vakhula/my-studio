@@ -13,7 +13,7 @@ export class ToolboxPanelComponent implements OnInit {
   endpoints: MsComponentData[] = [];
   scopes: MsComponentData[] = [];
 
-  constructor(private msComponentService: MsComponentService) {
+  constructor(public msComponentService: MsComponentService) {
     this.endpoints = msComponentService.getEndpoints();
     this.scopes = msComponentService.getScopes();
   }

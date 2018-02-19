@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
 
 import { AppComponent } from './app.component';
@@ -9,6 +10,8 @@ import { MsDraggableDirective } from './directives/ms-draggable.directive';
 import { MsCompoComponent } from './components/ms-compo/ms-compo.component';
 import { MsCompHostDirective } from './directives/ms-comp-host.directive';
 import { MsComponentService } from './services/ms-component.service';
+import { PropertyBoxComponent } from './components/property-box/property-box.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 
 @NgModule({
@@ -19,9 +22,12 @@ import { MsComponentService } from './services/ms-component.service';
     MsDraggableDirective,
     MsCompoComponent,
     MsCompHostDirective,
+    PropertyBoxComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    ColorPickerModule,
+    FormsModule
   ],
   entryComponents: [ MsCompoComponent ],
   providers: [MsComponentService],
