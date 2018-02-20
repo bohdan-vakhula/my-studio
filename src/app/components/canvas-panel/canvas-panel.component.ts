@@ -40,20 +40,26 @@ export class CanvasPanelComponent implements OnInit {
 
       let componentInstance: MsCompoComponent = (<MsCompoComponent>componentRef.instance);
       componentInstance.setComponentData(msComponentDataUID);
-      componentInstance.updatePosition(event.clientX, event.clientY);
+      componentInstance.updatePosition(event.clientX - 250, event.clientY);
 
       this.msComponentService.addMsCompComponent(componentInstance);
     }
   }
 
   handleMouseMove(event) {
-    if (event.button === 0 && this.connectionService.connectionStartPoint) {
+    if (event.buttons && event.button === 0 && this.connectionService.connectionStartPoint) {
       this.startPosition = this.connectionService.getPositionFromPoint(this.connectionService.connectionStartPoint);
       this.endPosition = new MsPosition(event.clientX - SIDE_BAR_WIDTH, event.clientY);
+    } else {
+      this.endConnect();
     }
   }
 
-  handleMouseUp(event) {    
+  handleMouseUp(event) {
+    this.endConnect();
+  }
+
+  endConnect() {
     if (this.connectionService.connectionStartPoint) {
       this.connectionService.cancelConnecting();
     }

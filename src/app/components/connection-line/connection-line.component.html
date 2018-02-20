@@ -6,5 +6,23 @@
       orient="auto">
       <path d="M 0 0 L 10 5 L 0 10 z" />
     </marker>
-	<line [attr.x1]="x1" [attr.y1]="y1" [attr.x2]="x2" [attr.y2]="y2" stroke="black" stroke-width="3" marker-end="url(#triangle)"/>
+    <!-- endPosition Y value start from 0 - 10, Need to check the reason here -->
+    <line
+      *ngIf="startPosition && endPosition && endPosition.y > 10"
+      [attr.x1]="startPosition.x"
+      [attr.y1]="startPosition.y"
+      [attr.x2]="endPosition.x"
+      [attr.y2]="endPosition.y"
+      stroke="black"
+      stroke-width="3"
+      marker-end="url(#triangle)"/>
+    <line
+      *ngFor="let msLine of connectionService.msLines"
+      [attr.x1]="msLine.position1.x"
+      [attr.y1]="msLine.position1.y"
+      [attr.x2]="msLine.position2.x"
+      [attr.y2]="msLine.position2.y"
+      stroke="black"
+      stroke-width="3"
+      marker-end="url(#triangle)"/>
 </svg>

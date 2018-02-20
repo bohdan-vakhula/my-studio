@@ -4,12 +4,8 @@
   (mousemove)="handleMouseMove($event)"
   (mouseup)="handleMouseUp($event)">
   <ng-template appMsCompHost></ng-template>
-  <!-- endPosition Y value start from 0 - 10, Need to check the reason here -->
   <app-connection-line
-    *ngIf="startPosition && endPosition && endPosition.y > 10"
-    [x1]="startPosition.x"
-    [y1]="startPosition.y"
-    [x2]="endPosition.x"
-    [y2]="endPosition.y">
+    [startPosition]="startPosition"
+    [endPosition]="endPosition">
   </app-connection-line>
 </div>

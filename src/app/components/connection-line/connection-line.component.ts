@@ -1,4 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ConnectionService } from '../../services/connection.service';
+import { MsPosition } from '../../models/ms-position';
 
 @Component({
   selector: 'app-connection-line',
@@ -6,14 +8,11 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./connection-line.component.scss']
 })
 export class ConnectionLineComponent implements OnInit {
-  @Input() x1: number;
-  @Input() y1: number;
-  @Input() x2: number;
-  @Input() y2: number;
+  @Input() startPosition: MsPosition;
+  @Input() endPosition: MsPosition;
 
-  constructor() { }
+  constructor(public connectionService: ConnectionService) { }
 
   ngOnInit() {
   }
-
 }

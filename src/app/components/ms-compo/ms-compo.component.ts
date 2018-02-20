@@ -13,6 +13,7 @@ import * as $ from 'jquery';
   styleUrls: ['./ms-compo.component.scss']
 })
 export class MsCompoComponent implements OnInit {
+  @ViewChild('container') containerRef: ElementRef;
   @ViewChild('leftConnector') leftConnector: ElementRef;
   @ViewChild('topConnector') topConnector: ElementRef;
   @ViewChild('rightConnector') rightConnector: ElementRef;
@@ -33,7 +34,6 @@ export class MsCompoComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.elmentRef.nativeElement.style.position = 'absolute';
   }
 
   setComponentData(msComponentDataUID: string) {
@@ -62,26 +62,34 @@ export class MsCompoComponent implements OnInit {
   }
 
   updatePosition(x, y) {
-    this.elmentRef.nativeElement.style.left = x + 'px';
-    this.elmentRef.nativeElement.style.top = y + 'px';
+    this.containerRef.nativeElement.style.left = x + 'px';
+    this.containerRef.nativeElement.style.top = y + 'px';
   }
 
   getPosstionOfConnector(connectorType: string): MsPosition {
     let elem: Element;
+    let offsetX: number = 0;
+    let offsetY: number = 0;
 
     if (connectorType === CONNECTOR_POSITION_TYPE.TOP_POSITION) {
       elem = this.topConnector.nativeElement;
+      offsetX = CONNECTOR_CENTER_OFFSET;
     } else if (connectorType === CONNECTOR_POSITION_TYPE.LEFT_POSITION) {
       elem = this.leftConnector.nativeElement;
+      offsetY = CONNECTOR_CENTER_OFFSET;
     } else if (connectorType === CONNECTOR_POSITION_TYPE.RIGHT_POSITION) {
       elem = this.rightConnector.nativeElement;
+      offsetX = CONNECTOR_CENTER_OFFSET*2;
+      offsetY = CONNECTOR_CENTER_OFFSET;
     } else if (connectorType === CONNECTOR_POSITION_TYPE.BOTTOM_POSITION) {
       elem = this.bottomConnector.nativeElement;
+      offsetX = CONNECTOR_CENTER_OFFSET;
+      offsetY = CONNECTOR_CENTER_OFFSET*2;
     }
 
     return new MsPosition(
-      $(elem).offset().left - SIDE_BAR_WIDTH + CONNECTOR_CENTER_OFFSET ,
-      $(elem).offset().top + CONNECTOR_CENTER_OFFSET
+      $(elem).offset().left - SIDE_BAR_WIDTH + offsetX,
+      $(elem).offset().top + offsetY
     );
   }
 

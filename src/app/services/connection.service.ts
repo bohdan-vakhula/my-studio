@@ -3,12 +3,14 @@ import { MsConnection, MsConnectionPoint } from '../models/ms-connection';
 import { MsPosition } from '../models/ms-position';
 import { MsCompoComponent } from '../components/ms-compo/ms-compo.component';
 import { MsComponentService } from '../services/ms-component.service';
+import { MsLine } from '../models/ms-line';
 
 @Injectable()
 export class ConnectionService {
   connectStarted: boolean = false;
   msConnections: MsConnection[] = [];
   connectionStartPoint: MsConnectionPoint = null;
+  msLines: MsLine[] = [];
 
   constructor(public msComponentService: MsComponentService) { }
 
@@ -22,9 +24,10 @@ export class ConnectionService {
       this.connectStarted = false;
       let msConnection: MsConnection = new MsConnection(
           this.connectionStartPoint,
-          new MsConnection(msComponentUID, connectPosition)
+          new MsConnectionPoint(msComponentUID, connectPosition)
       );
       this.msConnections.push(msConnection);
+      this.updateMsLines();
     }
   }
 
@@ -40,5 +43,13 @@ export class ConnectionService {
   getPositionFromPoint(connectionPoint: MsConnectionPoint): MsPosition {
     let msComponent: MsCompoComponent = <MsCompoComponent>this.msComponentService.msCompoComponentByUID[connectionPoint.componentUID];
     return msComponent.getPosstionOfConnector(connectionPoint.connectorPosition);
+  }
+
+  updateMsLines() {
+    this.msConnections.forEach((msConnection) => {
+      let pos1: MsPosition = this.getPositionFromPoint(msConnection.startPoint);
+      let pos2: MsPosition = this.getPositionFromPoint(msConnection.endPoint);
+      this.msLines.push(new MsLine(pos1, pos2));
+    });
   }
 }
