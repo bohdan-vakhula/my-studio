@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { MsConnection, MsConnectionPoint } from '../models/ms-connection';
+import { MsPosition } from '../models/ms-position';
+import { MsCompoComponent } from '../components/ms-compo/ms-compo.component';
+import { MsComponentService } from '../services/ms-component.service';
 
 @Injectable()
 export class ConnectionService {
@@ -7,7 +10,7 @@ export class ConnectionService {
   msConnections: MsConnection[] = [];
   connectionStartPoint: MsConnectionPoint = null;
 
-  constructor() { }
+  constructor(public msComponentService: MsComponentService) { }
 
   startConnect(msComponentUID: string, connectPosition: string) {
     this.connectStarted = true;
@@ -32,5 +35,10 @@ export class ConnectionService {
 
   isConnecting():boolean {
     return this.connectStarted;
+  }
+
+  getPositionFromPoint(connectionPoint: MsConnectionPoint): MsPosition {
+    let msComponent: MsCompoComponent = <MsCompoComponent>this.msComponentService.msCompoComponentByUID[connectionPoint.componentUID];
+    return msComponent.getPosstionOfConnector(connectionPoint.connectorPosition);
   }
 }

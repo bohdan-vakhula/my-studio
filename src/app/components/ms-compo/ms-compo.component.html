@@ -5,20 +5,20 @@
   ngDraggable
   (click)="handleContainerClick()">
   {{msTitle}}
-
-  <div class="connector left-located"
+  
+  <div #leftConnector class="connector left-located"
     (mousedown)="handleConnectorMouseDown($event, CONNECTOR_POSITION_TYPE.LEFT_POSITION)"
     (mouseup)="handleConnectorMouseUp($event, CONNECTOR_POSITION_TYPE.LEFT_POSITION)">
   </div>
-  <div class="connector top-located"
+  <div #topConnector class="connector top-located"
     (mousedown)="handleConnectorMouseDown($event, CONNECTOR_POSITION_TYPE.TOP_POSITION)"
     (mouseup)="handleConnectorMouseUp($event, CONNECTOR_POSITION_TYPE.TOP_POSITION)">
   </div>
-  <div class="connector bottom-located"
+  <div #bottomConnector class="connector bottom-located"
     (mousedown)="handleConnectorMouseDown($event, CONNECTOR_POSITION_TYPE.BOTTOM_POSITION)"
     (mouseup)="handleConnectorMouseUp($event, CONNECTOR_POSITION_TYPE.BOTTOM_POSITION)">
   </div>
-  <div class="connector right-located"
+  <div #rightConnector class="connector right-located"
     (mousedown)="handleConnectorMouseDown($event, CONNECTOR_POSITION_TYPE.RIGHT_POSITION)"
     (mouseup)="handleConnectorMouseUp($event, CONNECTOR_POSITION_TYPE.RIGHT_POSITION)">
   </div>

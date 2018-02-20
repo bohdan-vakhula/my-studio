@@ -1,4 +1,4 @@
-export class Position {
+export class MsPosition {
     x: number;
     y: number;
 

@@ -1,9 +1,11 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, QueryList, ViewChild } from '@angular/core';
 import { MsComponentData } from '../../models/ms-component-data';
 import { MsComponentService } from '../../services/ms-component.service';
-import { MS_COMPONENT_TYPE, CONNECTOR_POSITION_TYPE } from '../../appconfig';
+import { MS_COMPONENT_TYPE, CONNECTOR_POSITION_TYPE, SIDE_BAR_WIDTH, CONNECTOR_CENTER_OFFSET } from '../../appconfig';
 import { ConnectionService } from '../../services/connection.service';
+import { MsPosition } from '../../models/ms-position';
 import * as utils from '../../utils';
+import * as $ from 'jquery';
     
 @Component({
   selector: 'app-ms-compo',
@@ -11,6 +13,11 @@ import * as utils from '../../utils';
   styleUrls: ['./ms-compo.component.scss']
 })
 export class MsCompoComponent implements OnInit {
+  @ViewChild('leftConnector') leftConnector: ElementRef;
+  @ViewChild('topConnector') topConnector: ElementRef;
+  @ViewChild('rightConnector') rightConnector: ElementRef;
+  @ViewChild('bottomConnector') bottomConnector: ElementRef;
+
   uid = utils.uniqueID('ms_component');
   msComponentData: MsComponentData = new MsComponentData();
   MS_COMPONENT_TYPE: any = MS_COMPONENT_TYPE;
@@ -57,6 +64,25 @@ export class MsCompoComponent implements OnInit {
   updatePosition(x, y) {
     this.elmentRef.nativeElement.style.left = x + 'px';
     this.elmentRef.nativeElement.style.top = y + 'px';
+  }
+
+  getPosstionOfConnector(connectorType: string): MsPosition {
+    let elem: Element;
+
+    if (connectorType === CONNECTOR_POSITION_TYPE.TOP_POSITION) {
+      elem = this.topConnector.nativeElement;
+    } else if (connectorType === CONNECTOR_POSITION_TYPE.LEFT_POSITION) {
+      elem = this.leftConnector.nativeElement;
+    } else if (connectorType === CONNECTOR_POSITION_TYPE.RIGHT_POSITION) {
+      elem = this.rightConnector.nativeElement;
+    } else if (connectorType === CONNECTOR_POSITION_TYPE.BOTTOM_POSITION) {
+      elem = this.bottomConnector.nativeElement;
+    }
+
+    return new MsPosition(
+      $(elem).offset().left - SIDE_BAR_WIDTH + CONNECTOR_CENTER_OFFSET ,
+      $(elem).offset().top + CONNECTOR_CENTER_OFFSET
+    );
   }
 
 }
