@@ -2,6 +2,10 @@ import { Component, OnInit, ViewChild, ComponentFactoryResolver } from '@angular
 import { MsCompHostDirective } from '../../directives/ms-comp-host.directive';
 import { MsCompoComponent } from '../ms-compo/ms-compo.component';
 import { MsComponentService } from '../../services/ms-component.service';
+import { ConnectionService } from '../../services/connection.service';
+import { MsConnectionPoint } from '../../models/ms-connection';
+import { MsPosition } from '../../models/ms-position';
+import { SIDE_BAR_WIDTH } from '../../appconfig';
 
 @Component({
   selector: 'app-canvas-panel',
@@ -10,7 +14,13 @@ import { MsComponentService } from '../../services/ms-component.service';
 })
 export class CanvasPanelComponent implements OnInit {
   @ViewChild(MsCompHostDirective) appMsCompHost: MsCompHostDirective;
-  constructor(private componentFactoryResolver: ComponentFactoryResolver, private msComponentService: MsComponentService) { }
+  startPosition: MsPosition;
+  endPosition: MsPosition;
+
+  constructor(private componentFactoryResolver: ComponentFactoryResolver,
+              private msComponentService: MsComponentService,
+              private connectionService: ConnectionService)
+  {}
 
   ngOnInit() {
   }
@@ -34,5 +44,20 @@ export class CanvasPanelComponent implements OnInit {
 
       this.msComponentService.addMsCompComponent(componentInstance);
     }
+  }
+
+  handleMouseMove(event) {
+    if (event.button === 0 && this.connectionService.connectionStartPoint) {
+      this.startPosition = this.connectionService.getPositionFromPoint(this.connectionService.connectionStartPoint);
+      this.endPosition = new MsPosition(event.clientX - SIDE_BAR_WIDTH, event.clientY);
+    }
+  }
+
+  handleMouseUp(event) {    
+    if (this.connectionService.connectionStartPoint) {
+      this.connectionService.cancelConnecting();
+    }
+    this.startPosition = null;
+    this.endPosition = null;
   }
 }

@@ -5,6 +5,15 @@ export const MS_COMPONENT_TYPE: any = {
     SCOPE: 'scope'
 }
 
+export const SIDE_BAR_WIDTH = 250;
+export const CONNECTOR_CENTER_OFFSET = 5;
+export const CONNECTOR_POSITION_TYPE: any = {
+    TOP_POSITION: 'top-position',
+    LEFT_POSITION: 'left-position',
+    BOTTOM_POSITION: 'bottom-position',
+    RIGHT_POSITION: 'right-position'
+}
+
 export const MS_COMPONENTS: MsComponentData[] =  [{
     uid: 'ajax',
     title: 'AJAX',

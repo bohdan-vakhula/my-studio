@@ -1,7 +1,9 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, ElementRef, QueryList, ViewChild } from '@angular/core';
 import { MsComponentData } from '../../models/ms-component-data';
 import { MsComponentService } from '../../services/ms-component.service';
-import { MS_COMPONENT_TYPE } from '../../appconfig';
+import { MS_COMPONENT_TYPE, CONNECTOR_POSITION_TYPE, SIDE_BAR_WIDTH, CONNECTOR_CENTER_OFFSET } from '../../appconfig';
+import { ConnectionService } from '../../services/connection.service';
+import { MsPosition } from '../../models/ms-position';
 import * as utils from '../../utils';
 import * as $ from 'jquery';
     
@@ -11,9 +13,15 @@ import * as $ from 'jquery';
   styleUrls: ['./ms-compo.component.scss']
 })
 export class MsCompoComponent implements OnInit {
+  @ViewChild('leftConnector') leftConnector: ElementRef;
+  @ViewChild('topConnector') topConnector: ElementRef;
+  @ViewChild('rightConnector') rightConnector: ElementRef;
+  @ViewChild('bottomConnector') bottomConnector: ElementRef;
+
   uid = utils.uniqueID('ms_component');
   msComponentData: MsComponentData = new MsComponentData();
   MS_COMPONENT_TYPE: any = MS_COMPONENT_TYPE;
+  CONNECTOR_POSITION_TYPE: any = CONNECTOR_POSITION_TYPE;
   originalTop: number = 0;
   originalLeft: number = 0;
 
@@ -21,7 +29,7 @@ export class MsCompoComponent implements OnInit {
   msBackgroundColor: string = '';
   msTextColor: string = '';
 
-  constructor(private elmentRef: ElementRef, public msComponentService: MsComponentService) {
+  constructor(private elmentRef: ElementRef, public msComponentService: MsComponentService, private connectionService: ConnectionService) {
   }
 
   ngOnInit() {
@@ -40,14 +48,41 @@ export class MsCompoComponent implements OnInit {
     this.msComponentService.setSelectedMsComponent(this);
   }
 
-  handleContainerMouseDown(event) {
-    this.originalTop = event.pageY - $(this.elmentRef.nativeElement).offset().top;
-    this.originalLeft = event.pageX - $(this.elmentRef.nativeElement).offset().left;
+  handleConnectorMouseDown(event, positionStr:string) {
+    event.stopPropagation();
+    this.connectionService.startConnect(this.uid, positionStr);
+  }
+
+  handleConnectorMouseUp(event, positionStr:string) {
+    event.stopPropagation();
+
+    if (this.connectionService.isConnecting()) {
+      this.connectionService.endConnect(this.uid, positionStr);
+    }
   }
 
   updatePosition(x, y) {
-    this.elmentRef.nativeElement.style.left = (x - this.originalLeft) + 'px';
-    this.elmentRef.nativeElement.style.top = (y - this.originalTop) + 'px';
+    this.elmentRef.nativeElement.style.left = x + 'px';
+    this.elmentRef.nativeElement.style.top = y + 'px';
+  }
+
+  getPosstionOfConnector(connectorType: string): MsPosition {
+    let elem: Element;
+
+    if (connectorType === CONNECTOR_POSITION_TYPE.TOP_POSITION) {
+      elem = this.topConnector.nativeElement;
+    } else if (connectorType === CONNECTOR_POSITION_TYPE.LEFT_POSITION) {
+      elem = this.leftConnector.nativeElement;
+    } else if (connectorType === CONNECTOR_POSITION_TYPE.RIGHT_POSITION) {
+      elem = this.rightConnector.nativeElement;
+    } else if (connectorType === CONNECTOR_POSITION_TYPE.BOTTOM_POSITION) {
+      elem = this.bottomConnector.nativeElement;
+    }
+
+    return new MsPosition(
+      $(elem).offset().left - SIDE_BAR_WIDTH + CONNECTOR_CENTER_OFFSET ,
+      $(elem).offset().top + CONNECTOR_CENTER_OFFSET
+    );
   }
 
 }
