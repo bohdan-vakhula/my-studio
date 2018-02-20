@@ -1,3 +1,14 @@
-<div class='canvas' (drop)="handleDrop($event)" (dragover)="allowDrop($event)">
+<div class='canvas'
+  (drop)="handleDrop($event)"
+  (dragover)="allowDrop($event)"
+  (mousemove)="handleMouseMove($event)"
+  (mouseup)="handleMouseUp($event)">
   <ng-template appMsCompHost></ng-template>
+  <app-connection-line
+    *ngIf="startPosition && endPosition"
+    [x1]="startPosition.x"
+    [y1]="startPosition.y"
+    [x2]="endPosition.x"
+    [y2]="endPosition.y">
+  </app-connection-line>
 </div>

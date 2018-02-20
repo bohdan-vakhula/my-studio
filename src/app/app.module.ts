@@ -10,8 +10,10 @@ import { MsDraggableDirective } from './directives/ms-draggable.directive';
 import { MsCompoComponent } from './components/ms-compo/ms-compo.component';
 import { MsCompHostDirective } from './directives/ms-comp-host.directive';
 import { MsComponentService } from './services/ms-component.service';
+import { ConnectionService } from './services/connection.service';
 import { PropertyBoxComponent } from './components/property-box/property-box.component';
 import { ColorPickerModule } from 'ngx-color-picker';
+import { ConnectionLineComponent } from './components/connection-line/connection-line.component';
 
 
 @NgModule({
@@ -23,6 +25,7 @@ import { ColorPickerModule } from 'ngx-color-picker';
     MsCompoComponent,
     MsCompHostDirective,
     PropertyBoxComponent,
+    ConnectionLineComponent,
   ],
   imports: [
     BrowserModule,
@@ -31,7 +34,10 @@ import { ColorPickerModule } from 'ngx-color-picker';
     AngularDraggableModule
   ],
   entryComponents: [ MsCompoComponent ],
-  providers: [MsComponentService],
+  providers: [
+    MsComponentService,
+    ConnectionService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
