@@ -22,12 +22,15 @@ export class ConnectionService {
   endConnect(msComponentUID: string, connectPosition: string) {
     if (this.connectStarted && this.connectionStartPoint) {
       this.connectStarted = false;
-      let msConnection: MsConnection = new MsConnection(
-          this.connectionStartPoint,
-          new MsConnectionPoint(msComponentUID, connectPosition)
-      );
-      this.msConnections.push(msConnection);
-      this.updateMsLines();
+
+      if (this.connectionStartPoint.componentUID !== msComponentUID) {
+        let msConnection: MsConnection = new MsConnection(
+            this.connectionStartPoint,
+            new MsConnectionPoint(msComponentUID, connectPosition)
+        );
+        this.msConnections.push(msConnection);
+        this.updateMsLines();
+      }
     }
   }
 
@@ -46,6 +49,7 @@ export class ConnectionService {
   }
 
   updateMsLines() {
+    this.msLines = [];
     this.msConnections.forEach((msConnection) => {
       let pos1: MsPosition = this.getPositionFromPoint(msConnection.startPoint);
       let pos2: MsPosition = this.getPositionFromPoint(msConnection.endPoint);

@@ -3,6 +3,8 @@
   [class.endpoint]="msComponentData.type === MS_COMPONENT_TYPE.ENDPOINT"
   [ngStyle]="{'background': msBackgroundColor, 'color': msTextColor}"
   ngDraggable
+  (started)="handleDragBegin($event)"
+  (stopped)="handleDragEnd($event)"
   (click)="handleContainerClick()">
   {{msTitle}}
   

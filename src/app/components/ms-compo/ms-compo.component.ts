@@ -29,11 +29,18 @@ export class MsCompoComponent implements OnInit {
   msTitle: string = '';
   msBackgroundColor: string = '';
   msTextColor: string = '';
+  timerId: any;
 
   constructor(private elmentRef: ElementRef, public msComponentService: MsComponentService, private connectionService: ConnectionService) {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    if (this.timerId) {
+      clearInterval(this.timerId);
+    }
   }
 
   setComponentData(msComponentDataUID: string) {
@@ -58,6 +65,18 @@ export class MsCompoComponent implements OnInit {
 
     if (this.connectionService.isConnecting()) {
       this.connectionService.endConnect(this.uid, positionStr);
+    }
+  }
+
+  handleDragBegin(event) {
+    this.timerId = setInterval(() => {
+      this.connectionService.updateMsLines();
+    }, 30);
+  }
+
+  handleDragEnd(event) {
+    if (this.timerId) {
+      clearInterval(this.timerId);
     }
   }
 
