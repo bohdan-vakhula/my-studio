@@ -51,8 +51,14 @@ export class MsCompoComponent implements OnInit {
     this.msBackgroundColor =  this.msComponentData.type === 'endpoint' ? '#0c79c5' : '#289023';
   }
 
-  handleContainerClick() {
-    this.msComponentService.setSelectedMsComponent(this);
+  handleContainerMouseDown(event) {
+    event.stopPropagation();
+    
+    if (event.shiftKey) {
+      this.msComponentService.addSelectedMsComponentUID(this.uid);
+    } else {
+      this.msComponentService.setSelectedMsComponentUIDs([this.uid]);
+    }
   }
 
   handleConnectorMouseDown(event, positionStr:string) {
@@ -78,6 +84,10 @@ export class MsCompoComponent implements OnInit {
     if (this.timerId) {
       clearInterval(this.timerId);
     }
+  }
+
+  get shouldSelect() {
+    return this.msComponentService.selectedMsComponentUIDs.includes(this.uid);
   }
 
   updatePosition(x, y) {

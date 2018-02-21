@@ -5,23 +5,23 @@
   <div class="body">
     <div class="property-item">
       <div class="label">UID:</div>
-      <input [(ngModel)]="msComponentService.selectedMsComponent.uid" placeholder="title" disabled/>
+      <input [(ngModel)]="msCompoComponent.uid" placeholder="title" disabled/>
     </div>
     <div class="property-item">
       <div class="label">Text:</div>
-      <input [(ngModel)]="msComponentService.selectedMsComponent.msTitle" placeholder="title"/>
+      <input [(ngModel)]="msCompoComponent.msTitle" placeholder="title"/>
     </div>
     <div class="property-item">
       <div class="label">Background Color:</div>
-      <input class="colorInput" [value]="msComponentService.selectedMsComponent.msBackgroundColor"
-       [style.background]="msComponentService.selectedMsComponent.msBackgroundColor"
-       [(colorPicker)]="msComponentService.selectedMsComponent.msBackgroundColor"/>
+      <input class="colorInput" [value]="msCompoComponent.msBackgroundColor"
+       [style.background]="msCompoComponent.msBackgroundColor"
+       [(colorPicker)]="msCompoComponent.msBackgroundColor"/>
     </div>
     <div class="property-item">
       <div class="label">Text Color:</div>
-      <input class="colorInput" [value]="msComponentService.selectedMsComponent.msTextColor"
-       [style.background]="msComponentService.selectedMsComponent.msTextColor"
-       [(colorPicker)]="msComponentService.selectedMsComponent.msTextColor"/>
+      <input class="colorInput" [value]="msCompoComponent.msTextColor"
+       [style.background]="msCompoComponent.msTextColor"
+       [(colorPicker)]="msCompoComponent.msTextColor"/>
     </div>
   </div>
 </div>

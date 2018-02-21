@@ -6,7 +6,7 @@ import { MsCompoComponent } from '../components/ms-compo/ms-compo.component';
 @Injectable()
 export class MsComponentService {
   msComponentDataArray: MsComponentData[] = MS_COMPONENTS;
-  selectedMsComponent: MsCompoComponent;
+  selectedMsComponentUIDs: string[] = [];
   msCompoComponentByUID: any = {};
 
   constructor() { }
@@ -23,8 +23,16 @@ export class MsComponentService {
     return this.msComponentDataArray.find(item => item.uid === uid);
   }
 
-  setSelectedMsComponent(msCompoComponent: MsCompoComponent) {
-    this.selectedMsComponent = msCompoComponent;
+  setSelectedMsComponentUIDs(uids: string[]) {
+    this.selectedMsComponentUIDs = uids;
+  }
+
+  addSelectedMsComponentUID(uid: string) {
+    this.selectedMsComponentUIDs.push(uid);
+  }
+
+  resetSelectedMsComponents() {
+    this.selectedMsComponentUIDs = [];
   }
 
   addMsCompComponent(instance: MsCompoComponent) {

@@ -59,6 +59,10 @@ export class CanvasPanelComponent implements OnInit {
     this.endConnect();
   }
 
+  handleMouseDown(event) {
+    this.msComponentService.resetSelectedMsComponents();
+  }
+
   endConnect() {
     if (this.connectionService.connectionStartPoint) {
       this.connectionService.cancelConnecting();
