@@ -1,0 +1,40 @@
+.container {
+    color: white;
+    user-select: none;
+    position: absolute;
+    border: 1px dotted black;
+    &.endpoint {
+        background: #0c79c5;
+    }
+    &.selected::before {
+        content: '';
+        width: calc(100% + 10px);
+        height: calc(100% + 10px);
+        border: 1px dashed blue;
+        position: absolute;
+        left: -5px;
+        top: -5px;
+    }
+    .connector {
+        width: 10px;
+        height: 10px;
+        position: absolute;
+        background: gray;
+        &.left-located {
+            left: -5px;
+            top: calc(50% - 5px);
+        }
+        &.top-located {
+            left: calc(50% - 5px);
+            top: -5px;
+        }
+        &.right-located {
+            right: -5px;
+            top: calc(50% - 5px);
+        }
+        &.bottom-located {
+            bottom: -5px;
+            left: calc(50% - 5px);
+        }
+    }
+}

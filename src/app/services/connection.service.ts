@@ -44,7 +44,7 @@ export class ConnectionService {
   }
 
   getPositionFromPoint(connectionPoint: MsConnectionPoint): MsPosition {
-    let msComponent: MsCompoComponent = <MsCompoComponent>this.msComponentService.msCompoComponentByUID[connectionPoint.componentUID];
+    let msComponent: MsCompoComponent = <MsCompoComponent>this.msComponentService.getMsCompComponent(connectionPoint.componentUID);
     return msComponent.getPosstionOfConnector(connectionPoint.connectorPosition);
   }
 

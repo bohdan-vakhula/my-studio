@@ -1,0 +1,26 @@
+<div class="container" #container
+  [class.selected]="shouldSelect"
+  [ngStyle]="{'background': msBackgroundColor, 'color': msTextColor}"
+  ngDraggable
+  (started)="handleDragBegin($event)"
+  (stopped)="handleDragEnd($event)"
+  (mousedown)="handleContainerMouseDown($event)">
+  <ng-template appMsCompHost></ng-template>
+  
+  <div #leftConnector class="connector left-located"
+    (mousedown)="handleConnectorMouseDown($event, CONNECTOR_POSITION_TYPE.LEFT_POSITION)"
+    (mouseup)="handleConnectorMouseUp($event, CONNECTOR_POSITION_TYPE.LEFT_POSITION)">
+  </div>
+  <div #topConnector class="connector top-located"
+    (mousedown)="handleConnectorMouseDown($event, CONNECTOR_POSITION_TYPE.TOP_POSITION)"
+    (mouseup)="handleConnectorMouseUp($event, CONNECTOR_POSITION_TYPE.TOP_POSITION)">
+  </div>
+  <div #bottomConnector class="connector bottom-located"
+    (mousedown)="handleConnectorMouseDown($event, CONNECTOR_POSITION_TYPE.BOTTOM_POSITION)"
+    (mouseup)="handleConnectorMouseUp($event, CONNECTOR_POSITION_TYPE.BOTTOM_POSITION)">
+  </div>
+  <div #rightConnector class="connector right-located"
+    (mousedown)="handleConnectorMouseDown($event, CONNECTOR_POSITION_TYPE.RIGHT_POSITION)"
+    (mouseup)="handleConnectorMouseUp($event, CONNECTOR_POSITION_TYPE.RIGHT_POSITION)">
+  </div>
+</div>

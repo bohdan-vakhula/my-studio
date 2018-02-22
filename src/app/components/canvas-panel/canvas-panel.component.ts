@@ -1,6 +1,7 @@
-import { Component, OnInit, ViewChild, ComponentFactoryResolver } from '@angular/core';
+import { Component, OnInit, ViewChild, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
 import { MsCompHostDirective } from '../../directives/ms-comp-host.directive';
 import { MsCompoComponent } from '../ms-compo/ms-compo.component';
+import { MsGroupComponent } from '../ms-group/ms-group.component';
 import { MsComponentService } from '../../services/ms-component.service';
 import { ConnectionService } from '../../services/connection.service';
 import { MsConnectionPoint } from '../../models/ms-connection';
@@ -17,6 +18,7 @@ export class CanvasPanelComponent implements OnInit {
   @ViewChild(MsCompHostDirective) appMsCompHost: MsCompHostDirective;
   startPosition: MsPosition;
   endPosition: MsPosition;
+  viewContainerRef: ViewContainerRef;
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               private msComponentService: MsComponentService,
@@ -31,6 +33,7 @@ export class CanvasPanelComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.viewContainerRef = this.appMsCompHost.viewContainerRef;
   }
 
   allowDrop(event) {
@@ -38,7 +41,13 @@ export class CanvasPanelComponent implements OnInit {
   }
 
   groupSelectedMsComponents() {
+    if (this.msComponentService.selectedComponentUIDs && this.msComponentService.selectedComponentUIDs.length > 1) {
 
+      let groupComponentFactory = this.componentFactoryResolver.resolveComponentFactory(MsGroupComponent);
+      let groupComponentRef = this.viewContainerRef.createComponent(groupComponentFactory);
+      (<MsGroupComponent>groupComponentRef.instance).moveComponent(this.viewContainerRef);
+      this.msComponentService.addComponentRef(groupComponentRef);
+    }
   }
 
   handleDrop(event) {
@@ -46,15 +55,14 @@ export class CanvasPanelComponent implements OnInit {
     let msComponentDataUID: string = event.dataTransfer.getData('MsComponentDataUID');
 
     if (msComponentDataUID) {
-      let componentFactory = this.componentFactoryResolver.resolveComponentFactory(MsCompoComponent);
-      let viewContainerRef = this.appMsCompHost.viewContainerRef;
-      let componentRef = viewContainerRef.createComponent(componentFactory);
+      let msComponentFactory = this.componentFactoryResolver.resolveComponentFactory(MsCompoComponent);
+      let componentRef = this.viewContainerRef.createComponent(msComponentFactory);
 
       let componentInstance: MsCompoComponent = (<MsCompoComponent>componentRef.instance);
       componentInstance.setComponentData(msComponentDataUID);
       componentInstance.updatePosition(event.clientX - 250, event.clientY);
 
-      this.msComponentService.addMsCompComponent(componentInstance);
+      this.msComponentService.addComponentRef(componentRef);
     }
   }
 
@@ -72,7 +80,7 @@ export class CanvasPanelComponent implements OnInit {
   }
 
   handleMouseDown(event) {
-    this.msComponentService.resetSelectedMsComponents();
+    this.msComponentService.resetSelectedComponents();
   }
 
   endConnect() {

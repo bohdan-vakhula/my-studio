@@ -30,8 +30,9 @@ export class MsCompoComponent implements OnInit {
   msBackgroundColor: string = '';
   msTextColor: string = '';
   timerId: any;
+  isGroup = false;
 
-  constructor(private elmentRef: ElementRef, public msComponentService: MsComponentService, private connectionService: ConnectionService) {
+  constructor(public elementRef: ElementRef, public msComponentService: MsComponentService, public connectionService: ConnectionService) {
   }
 
   ngOnInit() {
@@ -55,9 +56,9 @@ export class MsCompoComponent implements OnInit {
     event.stopPropagation();
     
     if (event.shiftKey) {
-      this.msComponentService.addSelectedMsComponentUID(this.uid);
+      this.msComponentService.addSelectedComponentUID(this.uid);
     } else {
-      this.msComponentService.setSelectedMsComponentUIDs([this.uid]);
+      this.msComponentService.setSelectedComponentUIDs([this.uid]);
     }
   }
 
@@ -87,12 +88,17 @@ export class MsCompoComponent implements OnInit {
   }
 
   get shouldSelect() {
-    return this.msComponentService.selectedMsComponentUIDs.includes(this.uid);
+    return this.msComponentService.selectedComponentUIDs.includes(this.uid);
   }
 
   updatePosition(x, y) {
     this.containerRef.nativeElement.style.left = x + 'px';
     this.containerRef.nativeElement.style.top = y + 'px';
+  }
+
+  updatePositionInGroup(x, y) {
+    this.containerRef.nativeElement.style.left = this.containerRef.nativeElement.offsetLeft - x + 'px';
+    this.containerRef.nativeElement.style.top = this.containerRef.nativeElement.offsetTop - y + 'px';
   }
 
   getPosstionOfConnector(connectorType: string): MsPosition {

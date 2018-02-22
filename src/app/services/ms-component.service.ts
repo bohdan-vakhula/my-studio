@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
+import { Injectable, ComponentRef } from '@angular/core';
 import { MS_COMPONENTS, MS_COMPONENT_TYPE } from '../appconfig';
 import { MsComponentData } from '../models/ms-component-data';
 import { MsCompoComponent } from '../components/ms-compo/ms-compo.component';
+import { _ } from 'underscore';
 
 @Injectable()
 export class MsComponentService {
   msComponentDataArray: MsComponentData[] = MS_COMPONENTS;
-  selectedMsComponentUIDs: string[] = [];
-  msCompoComponentByUID: any = {};
+  selectedComponentUIDs: string[] = [];
+  componentRefByUID: any = {};
 
   constructor() { }
 
@@ -23,23 +24,31 @@ export class MsComponentService {
     return this.msComponentDataArray.find(item => item.uid === uid);
   }
 
-  setSelectedMsComponentUIDs(uids: string[]) {
-    this.selectedMsComponentUIDs = uids;
+  setSelectedComponentUIDs(uids: string[]) {
+    this.selectedComponentUIDs = uids;
   }
 
-  addSelectedMsComponentUID(uid: string) {
-    this.selectedMsComponentUIDs.push(uid);
+  addSelectedComponentUID(uid: string) {
+    this.selectedComponentUIDs.push(uid);
   }
 
-  resetSelectedMsComponents() {
-    this.selectedMsComponentUIDs = [];
+  resetSelectedComponents() {
+    this.selectedComponentUIDs = [];
   }
 
-  addMsCompComponent(instance: MsCompoComponent) {
-    this.msCompoComponentByUID[instance.uid] = instance;
+  addComponentRef(componentRef: ComponentRef<MsCompoComponent>) {
+    this.componentRefByUID[componentRef.instance.uid] = componentRef;
   }
 
   getMsCompComponent(uid: string) {
-    return this.msCompoComponentByUID[uid];
+    return this.componentRefByUID[uid].instance;
+  }
+
+  getSelectedComponents() {
+    return _.map(this.selectedComponentUIDs, uid => this.componentRefByUID[uid].instance);
+  }
+
+  getSelectedComponentRefs() {
+    return _.map(this.selectedComponentUIDs, uid => this.componentRefByUID[uid]);
   }
 }
