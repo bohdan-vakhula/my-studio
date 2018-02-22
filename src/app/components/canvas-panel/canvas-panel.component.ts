@@ -25,7 +25,7 @@ export class CanvasPanelComponent implements OnInit {
               private connectionService: ConnectionService,
               private _hotkeysService: HotkeysService)
   {
-      this._hotkeysService.add(new Hotkey('shift+g', (event: KeyboardEvent): boolean => {
+      this._hotkeysService.add(new Hotkey('g', (event: KeyboardEvent): boolean => {
         console.log('Grop group group');
         this.groupSelectedMsComponents();
         return false; // Prevent bubbling
