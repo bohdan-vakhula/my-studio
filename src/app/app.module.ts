@@ -14,7 +14,7 @@ import { ConnectionService } from './services/connection.service';
 import { PropertyBoxComponent } from './components/property-box/property-box.component';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { ConnectionLineComponent } from './components/connection-line/connection-line.component';
-
+import { HotkeyModule } from 'angular2-hotkeys';
 
 @NgModule({
   declarations: [
@@ -31,7 +31,8 @@ import { ConnectionLineComponent } from './components/connection-line/connection
     BrowserModule,
     ColorPickerModule,
     FormsModule,
-    AngularDraggableModule
+    AngularDraggableModule,
+    HotkeyModule.forRoot()
   ],
   entryComponents: [ MsCompoComponent ],
   providers: [

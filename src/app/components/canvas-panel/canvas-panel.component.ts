@@ -6,6 +6,7 @@ import { ConnectionService } from '../../services/connection.service';
 import { MsConnectionPoint } from '../../models/ms-connection';
 import { MsPosition } from '../../models/ms-position';
 import { SIDE_BAR_WIDTH } from '../../appconfig';
+import { HotkeysService, Hotkey } from 'angular2-hotkeys';
 
 @Component({
   selector: 'app-canvas-panel',
@@ -19,14 +20,25 @@ export class CanvasPanelComponent implements OnInit {
 
   constructor(private componentFactoryResolver: ComponentFactoryResolver,
               private msComponentService: MsComponentService,
-              private connectionService: ConnectionService)
-  {}
+              private connectionService: ConnectionService,
+              private _hotkeysService: HotkeysService)
+  {
+      this._hotkeysService.add(new Hotkey('shift+g', (event: KeyboardEvent): boolean => {
+        console.log('Grop group group');
+        this.groupSelectedMsComponents();
+        return false; // Prevent bubbling
+    }));
+  }
 
   ngOnInit() {
   }
 
   allowDrop(event) {
     event.preventDefault();
+  }
+
+  groupSelectedMsComponents() {
+
   }
 
   handleDrop(event) {
