@@ -54,16 +54,26 @@ export class MsCompoComponent implements OnInit {
 
   handleContainerMouseDown(event) {
     event.stopPropagation();
-    
+
+    this.originalLeft = event.offsetX;
+    this.originalTop = event.offsetY;
+        
     if (event.shiftKey) {
       this.msComponentService.addSelectedComponentUID(this.uid);
-    } else {
+    } else if (!this.msComponentService.selectedComponentUIDs.includes(this.uid)) {
+      this.msComponentService.setSelectedComponentUIDs([this.uid]);
+    }
+  }
+
+  handleContainerClick(event) {
+    if (!event.shiftKey && this.msComponentService.selectedComponentUIDs.includes(this.uid)) {
       this.msComponentService.setSelectedComponentUIDs([this.uid]);
     }
   }
 
   handleConnectorMouseDown(event, positionStr:string) {
     event.stopPropagation();
+    event.preventDefault();
     this.connectionService.startConnect(this.uid, positionStr);
   }
 
@@ -75,25 +85,18 @@ export class MsCompoComponent implements OnInit {
     }
   }
 
-  handleDragBegin(event) {
-    this.timerId = setInterval(() => {
-      this.connectionService.updateMsLines();
-    }, 30);
-  }
-
-  handleDragEnd(event) {
-    if (this.timerId) {
-      clearInterval(this.timerId);
-    }
-  }
-
   get shouldSelect() {
     return this.msComponentService.selectedComponentUIDs.includes(this.uid);
   }
 
   updatePosition(x, y) {
-    this.containerRef.nativeElement.style.left = x + 'px';
-    this.containerRef.nativeElement.style.top = y + 'px';
+    this.containerRef.nativeElement.style.left = x - this.originalLeft + 'px';
+    this.containerRef.nativeElement.style.top = y - this.originalTop + 'px';
+  }
+
+  updatePositionWithOriginal(x, y, origX, origY) {
+    this.containerRef.nativeElement.style.left = x - origX + 'px';
+    this.containerRef.nativeElement.style.top = y - origY + 'px';
   }
 
   updatePositionInGroup(x, y) {

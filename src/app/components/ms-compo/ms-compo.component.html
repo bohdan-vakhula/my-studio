@@ -2,9 +2,9 @@
   [class.selected]="shouldSelect"
   [class.endpoint]="msComponentData.type === MS_COMPONENT_TYPE.ENDPOINT"
   [ngStyle]="{'background': msBackgroundColor, 'color': msTextColor}"
-  (started)="handleDragBegin($event)"
-  (stopped)="handleDragEnd($event)"
-  (mousedown)="handleContainerMouseDown($event)">
+  appMsDraggable
+  (mousedown)="handleContainerMouseDown($event)"
+  (click)="handleContainerClick($event)">
   {{msTitle}}
   
   <div #leftConnector class="connector left-located"

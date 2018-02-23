@@ -60,15 +60,50 @@ export class MsComponentService {
     });
   }
 
+  moveSelectedComponents(currentPos, originPos) {
+    let componentsToMove = this.getSelectedComponents();
+
+    if (componentsToMove.length === 1) {
+      componentsToMove[0].updatePosition(currentPos.x, currentPos.y);
+    } else {
+      
+      let rects = _.map(componentsToMove, selectedComponent => {
+        return {
+          left: selectedComponent.containerRef.nativeElement.offsetLeft,
+          top: selectedComponent.containerRef.nativeElement.offsetTop,
+          right: selectedComponent.containerRef.nativeElement.offsetLeft + selectedComponent.containerRef.nativeElement.offsetWidth,
+          bottom: selectedComponent.containerRef.nativeElement.offsetTop + selectedComponent.containerRef.nativeElement.offsetHeight,
+        }
+      });
+
+      let minLeft = Math.min(..._.map(rects, rect => rect.left));
+      let minTop = Math.min(..._.map(rects, rect => rect.top));
+      let maxRight = Math.max(..._.map(rects, rect => rect.right));
+      let maxBottom = Math.max(..._.map(rects, rect => rect.bottom));
+
+      componentsToMove.forEach(component => {
+        let originalLeft: number = originPos.x - minLeft;
+        let originalTop: number = originPos.y - minTop;
+        component.updatePositionWithOriginal(currentPos.x + component.containerRef.nativeElement.offsetLeft - minLeft,
+                                            currentPos.y + component.containerRef.nativeElement.offsetTop - minTop,
+                                            originalLeft,
+                                            originalTop);
+      })
+    }
+  }
+
   selectComponentsInRect(rect: any) { //startX, startY, w, h
     let components:MsCompoComponent[] = _.map(_.values(this.componentRefByUID), componentRef => componentRef.instance);
     this.selectedComponentUIDs = [];
 
+    let left: number = rect.w < 0 ? rect.startX + rect.w : rect.startX;
+    let top: number = rect.h < 0 ? rect.startY + rect.h : rect.startY;
+
     components.forEach(component => {
-      if (component.containerRef.nativeElement.offsetLeft > rect.startX &&
-        component.containerRef.nativeElement.offsetTop > rect.startY &&
-        (component.containerRef.nativeElement.offsetLeft + component.containerRef.nativeElement.offsetWidth) < (rect.startX + rect.w) &&
-        (component.containerRef.nativeElement.offsetTop + component.containerRef.nativeElement.offsetHeight) < (rect.startY + rect.h))
+      if (component.containerRef.nativeElement.offsetLeft > left &&
+        component.containerRef.nativeElement.offsetTop > top &&
+        (component.containerRef.nativeElement.offsetLeft + component.containerRef.nativeElement.offsetWidth) < (left + Math.abs(rect.w)) &&
+        (component.containerRef.nativeElement.offsetTop + component.containerRef.nativeElement.offsetHeight) < (top + Math.abs(rect.h)))
       {
         this.addSelectedComponentUID(component.uid);
       }

@@ -7,6 +7,7 @@ import { ConnectionService } from '../../services/connection.service';
 import { MsConnectionPoint } from '../../models/ms-connection';
 import { MsPosition } from '../../models/ms-position';
 import { SIDE_BAR_WIDTH } from '../../appconfig';
+import { _ } from 'underscore';
 
 @Component({
   selector: 'app-canvas-panel',
@@ -78,6 +79,12 @@ export class CanvasPanelComponent implements OnInit {
   handleDrop(event) {
     event.preventDefault();
     let msComponentDataUID: string = event.dataTransfer.getData('MsComponentDataUID');
+    let msOrigPosX: number = event.dataTransfer.getData('msOrigPosX');
+    let msOrigPosY: number = event.dataTransfer.getData('msOrigPosY');
+    let origPos = {
+      x: msOrigPosX,
+      y: msOrigPosY
+    }
 
     if (msComponentDataUID) {
       let msComponentFactory = this.componentFactoryResolver.resolveComponentFactory(MsCompoComponent);
@@ -85,9 +92,16 @@ export class CanvasPanelComponent implements OnInit {
 
       let componentInstance: MsCompoComponent = (<MsCompoComponent>componentRef.instance);
       componentInstance.setComponentData(msComponentDataUID);
-      componentInstance.updatePosition(event.clientX - 250, event.clientY);
+      componentInstance.updatePosition(event.offsetX, event.offsetY);
 
       this.msComponentService.addComponentRef(componentRef);
+    } else if (origPos) {
+      let currentPos = {
+        x: event.offsetX,
+        y: event.offsetY
+      }
+      this.msComponentService.moveSelectedComponents(currentPos, origPos);
+      this.connectionService.updateMsLines();
     }
   }
 

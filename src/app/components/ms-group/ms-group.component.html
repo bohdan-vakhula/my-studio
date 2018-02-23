@@ -1,8 +1,6 @@
 <div class="container" #container
   [class.selected]="shouldSelect"
   [ngStyle]="{'background': msBackgroundColor, 'color': msTextColor}"
-  (started)="handleDragBegin($event)"
-  (stopped)="handleDragEnd($event)"
   (mousedown)="handleContainerMouseDown($event)">
   <ng-template appMsCompHost></ng-template>
   
