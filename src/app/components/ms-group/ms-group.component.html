@@ -1,7 +1,6 @@
 <div class="container" #container
   [class.selected]="shouldSelect"
   [ngStyle]="{'background': msBackgroundColor, 'color': msTextColor}"
-  ngDraggable
   (started)="handleDragBegin($event)"
   (stopped)="handleDragEnd($event)"
   (mousedown)="handleContainerMouseDown($event)">

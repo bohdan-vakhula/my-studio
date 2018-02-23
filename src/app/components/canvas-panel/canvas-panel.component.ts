@@ -108,7 +108,11 @@ export class CanvasPanelComponent implements OnInit {
 
   handleMouseUp(event) {
     this.endConnect();
-    this.drag = false;
+    
+    if (this.drag) {
+      this.msComponentService.selectComponentsInRect(this.rect);
+      this.drag = false;
+    }
 
     if (this.ctx) {
       this.ctx.clearRect(0, 0, this.canvasPanel.nativeElement.width, this.canvasPanel.nativeElement.height);

@@ -59,4 +59,19 @@ export class MsComponentService {
       selectedComponentRef.destroy();
     });
   }
+
+  selectComponentsInRect(rect: any) { //startX, startY, w, h
+    let components:MsCompoComponent[] = _.map(_.values(this.componentRefByUID), componentRef => componentRef.instance);
+    this.selectedComponentUIDs = [];
+
+    components.forEach(component => {
+      if (component.containerRef.nativeElement.offsetLeft > rect.startX &&
+        component.containerRef.nativeElement.offsetTop > rect.startY &&
+        (component.containerRef.nativeElement.offsetLeft + component.containerRef.nativeElement.offsetWidth) < (rect.startX + rect.w) &&
+        (component.containerRef.nativeElement.offsetTop + component.containerRef.nativeElement.offsetHeight) < (rect.startY + rect.h))
+      {
+        this.addSelectedComponentUID(component.uid);
+      }
+    });
+  }
 }
