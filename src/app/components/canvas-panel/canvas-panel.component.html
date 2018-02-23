@@ -1,7 +1,7 @@
 <div class='canvas'
   (drop)="handleDrop($event)"
   (dragover)="allowDrop($event)"
-  (mousedown)="handleMouseDown($even)"
+  (mousedown)="handleMouseDown($event)"
   (mousemove)="handleMouseMove($event)"
   (mouseup)="handleMouseUp($event)">
   <ng-template appMsCompHost></ng-template>
@@ -9,4 +9,5 @@
     [startPosition]="startPosition"
     [endPosition]="endPosition">
   </app-connection-line>
+  <canvas [class.hideCanvas]="!drag" #canvasPanel [attr.width]="canvasWidth" [attr.height]="canvasHeight"></canvas>
 </div>

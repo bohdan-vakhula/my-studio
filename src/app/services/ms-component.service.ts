@@ -51,4 +51,12 @@ export class MsComponentService {
   getSelectedComponentRefs() {
     return _.map(this.selectedComponentUIDs, uid => this.componentRefByUID[uid]);
   }
+
+  deleteSelectedMsComponents() {
+    let selectedComponentRefs = this.getSelectedComponentRefs();
+    selectedComponentRefs.forEach(selectedComponentRef => {
+      delete this.componentRefByUID[selectedComponentRef.instance.uid];
+      selectedComponentRef.destroy();
+    });
+  }
 }

@@ -2,4 +2,13 @@
     height: 100vh;
     position: relative;
     overflow: hidden;
+
+    canvas {
+        position: absolute;
+        left: 0;
+        top: 0;
+        &.hideCanvas {
+            display: none;
+        }
+    }
 }
